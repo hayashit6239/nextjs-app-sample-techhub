@@ -1,0 +1,25 @@
+name: Integration
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  buntest:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Run tests
+        run: yarn test
+        env:
+          DATABASE_URL: file:./dev.db
+          ROUTE_HANDLERS_BASE_URL: http://localhost:3000/api

@@ -1,0 +1,84 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Project {
+  id                  Int           @id @default(autoincrement())
+  name                String
+  description         String?
+  representativeName  String
+  representativeEmail String
+  departmentId        Int
+  adoption            Adoption[]
+  department          Department    @relation(fields: [departmentId], references: [id])
+  Affiliation         Affiliation[]
+
+  @@map("projects")
+}
+
+model Department {
+  id       Int       @id @default(autoincrement())
+  name     String
+  projects Project[]
+
+  @@map("departments")
+}
+
+model Techcategory {
+  id         Int         @id @default(autoincrement())
+  name       String
+  techtopics Techtopic[]
+
+  @@map("techcategories")
+}
+
+model Techtopic {
+  id             Int          @id @default(autoincrement())
+  name           String
+  techcategoryId Int
+  techcategory   Techcategory @relation(fields: [techcategoryId], references: [id])
+  adoption       Adoption[]
+
+  @@map("techtopics")
+}
+
+model Adoption {
+  id          Int       @id @default(autoincrement())
+  projectId   Int
+  techtopicId Int
+  version     String
+  purpose     String
+  project     Project   @relation(fields: [projectId], references: [id])
+  techtopic   Techtopic @relation(fields: [techtopicId], references: [id])
+
+  @@map("adoptions")
+}
+
+model User {
+  id           Int           @id @default(autoincrement())
+  name         String
+  username     String        @default("")
+  password     String        @default("")
+  affiliations Affiliation[]
+
+  @@map("users")
+}
+
+model Affiliation {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  projectId Int
+  user      User    @relation(fields: [userId], references: [id])
+  project   Project @relation(fields: [projectId], references: [id])
+
+  @@map("affiliations")
+}
