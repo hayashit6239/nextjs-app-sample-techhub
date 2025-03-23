@@ -18,7 +18,6 @@ export function UserLoginFormPresentational() {
     useEffect(() => {
         if (state.status === FormStatus.SUCCESS) {
             router.back();
-            // redirect(`/projects/${projectId}/edit`);
         }
     }, [router, state.status]);
 
@@ -34,7 +33,7 @@ export function UserLoginFormPresentational() {
                             name="username"
                             type="text"
                         />
-                        {/* {errorMessage.username && <p className="text-red-600 text-xs">{errorMessage.username}</p>} */}
+                        {state.zodErrors?.username && <p className="text-red-600 text-xs">{state.zodErrors?.username}</p>}
                     </div>
                     <div className="space-y-2">
                         <label htmlFor="username">パスワード</label>
@@ -43,7 +42,7 @@ export function UserLoginFormPresentational() {
                             name="password"
                             type="password"
                         />
-                        {/* {errorMessage.password && <p className="text-red-600 text-xs">{errorMessage.password}</p>} */}
+                        {state.zodErrors?.password && <p className="text-red-600 text-xs">{state.zodErrors?.password}</p>}
                     </div>
                 </div>
                 <div className="flex flex-row mt-4 justify-end space-x-3">

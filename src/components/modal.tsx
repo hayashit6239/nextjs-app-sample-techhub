@@ -22,7 +22,15 @@ export function BaseModal({
     router.back();
   }
 
-  const className = elementName === "user-login-modal" ?  "user-login-modal p-10" : "modal p-10";
+  const className = elementName === "user-login-modal" ?  (
+    "user-login-modal p-10"
+  ) : (
+    elementName === "user-logout-modal" ? (
+      "user-logout-modal p-10"
+    ) : (
+       "modal p-10"
+    )
+  );
 
   if (typeof window !== "object") {
     return null;

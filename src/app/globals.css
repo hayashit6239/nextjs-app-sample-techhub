@@ -161,12 +161,18 @@
   border: none;
   border-radius: 12px;
   background-color: white;
-  /* padding: 20px; */
-  /* position: relative; */
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
-  /* font-size: 48px; */
+  margin: auto auto;
+  z-index: 30;
+}
+
+.user-logout-modal {
+  width: 30%;
+  height: 170px;
+  border: none;
+  border-radius: 12px;
+  background-color: white;
+  display: flex;
   margin: auto auto;
   z-index: 30;
 }

@@ -40,6 +40,7 @@ export default function RootLayout({
           {children}
           {modal}
           <div id="user-login-modal" />
+          <div id="user-logout-modal" />
         </MantineProvider>
       </body>
     </html>

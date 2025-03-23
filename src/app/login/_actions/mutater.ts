@@ -7,7 +7,7 @@ import { User } from "@prisma/client";
 import { compare } from "bcrypt";
 import { z } from "zod";
 
-type PostLoinForm = {
+type PostLoginForm = {
     status?: string;
     username: string;
     password: string;
@@ -18,7 +18,7 @@ type ZodErrors = {
     password?: string[];
 }
 
-type PostLoinFormState = PostLoinForm & {
+type PostLoinFormState = PostLoginForm & {
     zodErrors?: ZodErrors;
 }
 
