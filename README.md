@@ -17,23 +17,23 @@ Dockerfile を用意しているので、Docker が動く環境であれば問�
 ./build.sh
 ```
 
-## 2. ログイン画面
-
-下記の画面が表示されたらログインします。
-
-- ユーザー名：tester
-- パスワード：test
-
-![Image](https://github.com/user-attachments/assets/74d06a69-0578-483c-b017-be0bf3931cca)
-
-ログイン後に画面が遷移しなかったら「Tech Hub」をクリックしてください。
-
-## 3. プロジェクト一覧画面
+## 2. プロジェクト一覧画面
 
 seed によって投入されたダミーデータが表示されます。
 「Number Zero PJ」の「プロジェクトの詳細を見る」をクリックします。
 
 ![Image](https://github.com/user-attachments/assets/c3acdef2-ce8e-47d1-9f1c-b79c19fec621)
+
+## 3. ログイン画面
+
+ヘッダーのログインボタンをクリックして、ログインします。
+
+- ユーザー名：tester
+- パスワード：test
+
+![Image](https://github.com/user-attachments/assets/2e1115fc-ae0b-4294-93c6-5fbc30eaac10)
+
+ログイン後に画面が遷移しなかったら「Tech Hub」をクリックしてください。
 
 ## 4. プロジェクト詳細画面
 
