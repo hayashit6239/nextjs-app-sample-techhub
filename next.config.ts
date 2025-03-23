@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   output: "standalone",
   experimental: {
-    ppr: "incremental",
+    // ppr: "incremental",
     useCache: true,
   },
   rewrites: async () => ({
@@ -23,7 +23,6 @@ const nextConfig: NextConfig = {
   }),
   env: {
     ENVIRONMENT: process.env.ENVIRONMENT,
-    ROUTE_HANDLERS_BASE_URL: process.env.ROUTE_HANDLERS_BASE_URL,
     HONEYCOMB_API_KEY: process.env.HONEYCOMB_API_KEY,
     JWT_SECRET_KEY: process.env.JWT_SECRET_KEY,
   },

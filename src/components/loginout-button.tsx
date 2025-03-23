@@ -23,26 +23,7 @@ export async function LoginoutButton() {
     }
 
     return (
-        <>
-            {userId ? (
-                <Link href="/logout">
-                    <Button
-                        className="hover:cursor-pointer bg-gray-400"
-                    >
-                        <p className="text-gray-800 font-bold text-lg">ログアウト</p>
-                    </Button>
-                </Link>
-            ) : (
-                <Link href="/login">
-                    <Button
-                        variant="secondary"
-                        className="hover:cursor-pointer"
-                    >
-                        <p className="text-gray-800 font-bold text-lg">ログイン</p>
-                    </Button>
-                </Link>   
-            )}
-        </>
+       <CustomButton userId={userId}/>
     )
 }
 

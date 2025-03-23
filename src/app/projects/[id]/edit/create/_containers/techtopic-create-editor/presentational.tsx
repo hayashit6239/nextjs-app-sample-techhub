@@ -56,7 +56,6 @@ export function TechtopicCreateEditorPresentational(props: Props) {
     useEffect(() => {
         if (state.status === FormStatus.SUCCESS) {
             router.back();
-            // redirect(`/projects/${projectId}/edit`);
         }
     }, [router, state.status]);
 
