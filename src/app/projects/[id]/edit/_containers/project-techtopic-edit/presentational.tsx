@@ -1,14 +1,9 @@
 "use client"
 
 import { Button } from "@/components/ui/button";
-// import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-// import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-// import { Input } from "@/components/ui/input"
-// import { Label } from "@/components/ui/label"
-// import { Textarea } from "@/components/ui/textarea";
-// import { Modal, Select } from '@mantine/core';
+import { Modal } from "@mantine/core";
 import Link from "next/link";
-// import { useState } from "react";
+import { useState } from "react";
 
 type Props = {
   projectId: number;
@@ -16,6 +11,8 @@ type Props = {
 
 export function  ProjectTecjTopicEditPresentational(props: Props) {
     const { projectId } = props;
+
+    const [open, setOpen] = useState(false);
 
     return (
         <div className="w-full space-y-4">
@@ -48,11 +45,18 @@ export function  ProjectTecjTopicEditPresentational(props: Props) {
                     className="hover:cursor-auto w-full"
                     onClick={(event) => {
                         event.preventDefault();
+                        setOpen(true);
                     }}
                 >
                     <p className="text-gray-800 text-sm">バグるボタン</p>
                 </Button>
             </div>
+            <Modal
+                opened={open}
+                onClose={() => setOpen(false)}
+            >
+                なぜかバグる
+            </Modal>
         </div>
     )
 }
