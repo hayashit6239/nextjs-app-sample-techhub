@@ -10,7 +10,7 @@
     "lint": "next lint",
     "validate": "prisma validate",
     "seed": "tsx prisma/seed.ts",
-    "test": "npx prisma migrate reset --force && bun test"
+    "test": "JWT_SECRET_KEY=test-secret npx prisma migrate reset --force && bun test"
   },
   "dependencies": {
     "@mantine/core": "^7.17.1",
