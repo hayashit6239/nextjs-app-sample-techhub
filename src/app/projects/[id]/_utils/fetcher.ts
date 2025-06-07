@@ -1,14 +1,14 @@
 "use server";
 
+import { cache } from "react";
 import { Adoption, ProjectWithDepartmentName } from "@/lib/server-types";
 import { prisma } from "@/lib/prisma";
 import { ResProject, ResTechtopic, ResUser } from "@/lib/server-response-types";
-import { sleep } from "@/lib/utils";
 import { Result } from "@/lib/type";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 
-export async function getProject(projectId: number): Promise<Result<ResProject, string>> {
+export const getProject = cache(async (projectId: number): Promise<Result<ResProject, string>> => {
     try {
         const project = await _fetchProject(projectId);
 
@@ -38,7 +38,7 @@ export async function getProject(projectId: number): Promise<Result<ResProject, 
         }
         throw e; 
     }
-}
+});
 
 export async function getUserWithProjectIds(): Promise<Result<ResUser | null, string>>{
     try {
@@ -69,11 +69,10 @@ export async function getUserWithProjectIds(): Promise<Result<ResUser | null, st
     }
 }
 
-export async function getAdoptionsByProjectId(projectId: number): Promise<Result<ResTechtopic[], string>> {
+export const getAdoptionsByProjectId = cache(async (projectId: number): Promise<Result<ResTechtopic[], string>> => {
     try {
         const adoptions = await _fetchAdoptionsByProjectId(projectId);
 
-        await sleep(1500);
 
         return { 
             ok: true,
@@ -94,69 +93,50 @@ export async function getAdoptionsByProjectId(projectId: number): Promise<Result
         }
         throw e;
     }
-}
+});
 
 async function _fetchProject(id: number): Promise<ProjectWithDepartmentName | null> {
-    return await prisma
-        .project
-        .findUnique(
-            {
-                where: {
-                    id,
-                },
-                include: {
-                    department: true,
-                },
-            }
-        )
-        .then((project) => {
+    const project = await prisma.project.findUnique({
+        where: { id },
+        include: { department: true }
+    });
 
-            if(project === null) {
-                return null;
-            }
+    if (!project) return null;
 
-            return {
-                id: project.id,
-                name: project.name,
-                description: project.description || "",
-                representativeName: project.representativeName,
-                representativeEmail: project.representativeEmail,
-                departmentName: project.department.name,
-            }
-        })
+    return {
+        id: project.id,
+        name: project.name,
+        description: project.description || "",
+        representativeName: project.representativeName,
+        representativeEmail: project.representativeEmail,
+        departmentName: project.department.name,
+    };
 }
 
 async function _fetchAdoptionsByProjectId(projectId: number): Promise<Adoption[]> {
-    return await prisma
-        .adoption
-        .findMany({
-            where: {
-                projectId,
-            },
-            include: {
-                project: true,
-                techtopic: {
-                    include: {
-                        techcategory: true,
-                    },
+    const adoptions = await prisma.adoption.findMany({
+        where: { projectId },
+        include: {
+            project: true,
+            techtopic: {
+                include: {
+                    techcategory: true,
                 }
             }
-        })
-        .then((adoptions) => {
-            return adoptions.map((adoption) => {
-                return {
-                    id: adoption.id,
-                    projectId: adoption.project.id,
-                    techtopic: {
-                        id: adoption.techtopic.id,
-                        name: adoption.techtopic.name,
-                        techcategoryName: adoption.techtopic.techcategory.name,
-                    },
-                    version: adoption.version,
-                    purpose: adoption.purpose,
-                }
-            })
-        })
+        }
+    });
+
+    return adoptions.map((adoption) => ({
+        id: adoption.id,
+        projectId: adoption.project.id,
+        techtopic: {
+            id: adoption.techtopic.id,
+            name: adoption.techtopic.name,
+            techcategoryName: adoption.techtopic.techcategory.name,
+        },
+        version: adoption.version,
+        purpose: adoption.purpose,
+    }));
 }
 
 // テスト用にプライベート関数だが export する
