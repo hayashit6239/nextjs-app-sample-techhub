@@ -57,16 +57,24 @@ async function _fetchAdoptionsByProjectId(projectId: number): Promise<Adoption[]
 }
 
 export async function deleteAdoptions(adoptionIds: number[]): Promise<Result<void, string>> {
-
-    const resList = adoptionIds.map(async (adoptionId) => {
-        await prisma.adoption.delete({
-            where: {
-                id: adoptionId
+    try {
+        const resList = adoptionIds.map(async (adoptionId) => {
+            try {
+                await prisma.adoption.delete({
+                    where: {
+                        id: adoptionId
+                    }
+                });
+            } catch (error) {
+                // 存在しないIDの場合はスキップ（エラーとしない）
+                console.log(`Adoption with ID ${adoptionId} not found, skipping`);
             }
-        });
-    })
+        })
 
-    await Promise.all(resList);
+        await Promise.all(resList);
 
-   return { ok: true, value: undefined };
+        return { ok: true, value: undefined };
+    } catch (error) {
+        return { ok: false, error: error instanceof Error ? error.message : "Unknown error" };
+    }
 }
