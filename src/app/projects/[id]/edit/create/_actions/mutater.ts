@@ -26,8 +26,8 @@ type PostAdoptionFormState = PostAdoptionForm & {
 const PostAdoptionFormSchema = z.object({
     projectId: z.number().min(1),
     techtopicId: z.number(),
-    version: z.string(),
-    purpose: z.string(),
+    version: z.string().min(1),
+    purpose: z.string().min(1),
 });
 
 export async function postAdoption(prevState: PostAdoptionFormState, formData: FormData): Promise<PostAdoptionFormState> {
@@ -66,7 +66,7 @@ export async function postAdoption(prevState: PostAdoptionFormState, formData: F
     }
 }
 
-export async function _mutateCreateAdoption(data: PostAdoptionForm): Promise<PostAdoptionForm> {
+export async function _mutateCreateAdoption(data: PostAdoptionForm) {
     const createdAdoption = await prisma.adoption.create({
         data: {
             version: data.version,

@@ -38,12 +38,14 @@ export async function createSession(userId: number, name: string, username: stri
 
 export async function decrypt(session: string | undefined = "") {
     try {
+        if (!session || session === "") {
+            return undefined;
+        }
         const { payload } = await jwtVerify(session, new TextEncoder().encode(process.env.JWT_SECRET_KEY), {
             algorithms: ["HS256"],
         })
         return payload
     } catch (error) {
-        console.log('Failed to verify session');
-        console.log(error);
+        return undefined;
     }
 }
